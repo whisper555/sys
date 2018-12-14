@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.manage.baseinfo.department.dao.DepartmentInfoDao">
+    
+	<sql id="departmentColumns">
+		a.id  AS "id",
+		a.d_name AS "d_name",
+		a.f_name AS "f_name"
+	</sql>
+	
+	<sql id="departmentJoins">
+	</sql>
+	
+    
+	<select id="get" resultType="DepartmentInfo" >
+		SELECT 
+			<include refid="departmentColumns"/>
+		FROM department a
+		<include refid="departmentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DepartmentInfo" >
+		SELECT 
+			<include refid="departmentColumns"/>
+		FROM department a
+		<include refid="departmentJoins"/>
+		
+	</select>
+
+	
+	<insert id="insert" parameterType="DepartmentInfo">
+		INSERT INTO department ( 
+			d_name,
+			f_name
+		) VALUES (
+			#{d_name},
+			#{f_name}
+		)
+		
+	</insert>
+	
+	<update id="update" parameterType="DepartmentInfo">
+		UPDATE department a SET 	
+			d_name = #{d_name},
+			f_name = #{f_name}
+			WHERE a.id = #{id}
+	</update>
+	
+	<!--物理删除-->
+	<update id="delete" parameterType="DepartmentInfo" >
+		DELETE FROM department
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据部门名称获取实体 -->
+	<select id="findDepartmentByName" resultType="DepartmentInfo">
+		SELECT 
+			<include refid="departmentColumns"/>
+		FROM department a
+		<include refid="departmentJoins"/>
+		WHERE d_name = #{param1}
+	</select>
+</mapper>

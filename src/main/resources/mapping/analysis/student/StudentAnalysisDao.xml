@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.analysis.student.dao.StudentAnalysisDao">
+    <!--     获取各个导师所带学生的数量 -->
+    <select id="getDepartStuLineData" resultType="java.util.HashMap">
+	    SELECT
+			s_name NAME,
+			ifnull(s_score ,0) SCORE
+		FROM
+			student s
+		LEFT JOIN classs c ON c.id = s.c_name
+		WHERE
+		   c.d_name = #{param1}
+		ORDER BY
+			s.s_score DESC
+		LIMIT 10
+		
+    </select>
+    <!--     获取各个导师所带学生的毕设平均分 -->
+    <select id="getClasssStuLineData" resultType="java.util.HashMap">
+   		 SELECT
+			s_name NAME,
+			ifnull(s_score ,0) SCORE
+		FROM
+			student s
+		LEFT JOIN classs c ON c.id = s.c_name
+		WHERE
+			s.c_name = #{param2}
+		AND c.d_name = #{param1}
+		ORDER BY
+			s.s_score DESC
+		LIMIT 10
+	    
+    </select>
+    
+</mapper>

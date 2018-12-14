@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.manage.controlstation.file.dao.FileInfoDao">
+    
+	<sql id="fileInfoColumns">
+		a.id AS "id",
+		a.file_url AS "file_url",
+		a.user_id AS "user_id"
+	</sql>
+	
+	<sql id="fileInfoJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="FileInfo" >
+		SELECT 
+			<include refid="fileInfoColumns"/>
+		FROM file a
+		<include refid="fileInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FileInfo" >
+		SELECT 
+			<include refid="fileInfoColumns"/>
+		FROM file a
+		<include refid="fileInfoJoins"/>
+	</select>
+
+	<insert id="insert" >
+		INSERT INTO file(
+			file_url,
+			user_id 
+		) VALUES (
+			#{file_url},
+			#{user_id}
+		)
+		
+	</insert>
+	
+	
+	
+	
+	<!--物理删除-->
+	<update id="delete" parameterType="FileInfo" >
+		DELETE FROM file
+		WHERE id = #{id}
+	</update>
+	
+	<!--物理删除-->
+	<update id="deleteAll" >
+		DELETE FROM file
+		
+	</update>
+
+</mapper>

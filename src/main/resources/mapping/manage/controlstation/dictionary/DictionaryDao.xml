@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.manage.controlstation.dictionary.dao.DictionaryDao">
+    
+	<sql id="dictionaryColumns">
+		a.id AS "id",
+		a.type AS "type",
+		a.label AS "label",
+		a.value AS "value",
+		a.description AS "description"
+
+	</sql>
+	
+	<sql id="dictionaryJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="Dictionary" >
+		SELECT 
+			<include refid="dictionaryColumns"/>
+		FROM sys_dict a
+		<include refid="dictionaryJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Dictionary" >
+		SELECT 
+			<include refid="dictionaryColumns"/>
+		FROM sys_dict a
+		<include refid="dictionaryJoins"/>
+	</select>
+
+	<insert id="insert" >
+		INSERT INTO sys_dict(
+			type,
+			label,
+			value,
+			description
+		) VALUES (
+			#{type},
+			#{label},
+			#{value},
+			#{description}
+		)
+		
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_dict SET 	
+			type = #{type},
+			label = #{label},
+			value = #{value},
+			description = #{description}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete" parameterType="Dictionary" >
+		DELETE FROM sys_dict
+		WHERE id = #{id}
+	</update>
+
+</mapper>

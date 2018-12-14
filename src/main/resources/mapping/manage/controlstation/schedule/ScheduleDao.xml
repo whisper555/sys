@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.manage.controlstation.schedule.dao.ScheduleDao">
+    
+	<sql id="scheduleColumns">
+		a.id AS "id",
+		a.starttime AS "starttime",
+		a.endtime AS "endtime",
+		a.period AS "period",
+		a.flag AS "flag"
+
+	</sql>
+	
+	<sql id="scheduleJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="Schedule" >
+		SELECT 
+			<include refid="scheduleColumns"/>
+		FROM schedule a
+		<include refid="scheduleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Schedule" >
+		SELECT 
+			<include refid="scheduleColumns"/>
+		FROM schedule a
+		<include refid="scheduleJoins"/>
+	</select>
+
+	<insert id="insert" >
+		INSERT INTO schedule(
+			starttime,
+			endtime
+		) VALUES (
+			#{starttime},
+			#{endtime}	
+		)
+		
+	</insert>
+	
+	<update id="update">
+		UPDATE schedule SET 	
+			starttime = #{starttime},
+			endtime = #{endtime}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete" parameterType="Schedule" >
+		DELETE FROM schedule
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

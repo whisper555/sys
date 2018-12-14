@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.manage.baseinfo.classs.dao.ClasssInfoDao">
+    
+	<sql id="classsColumns">
+		a.id AS "id",
+		a.c_name AS "c_name",
+		a.d_name AS "department.id",
+		d.d_name AS "department.d_name"
+
+	</sql>
+	
+	<sql id="classsJoins">
+		LEFT JOIN department d ON d.id = a.d_name
+	</sql>
+	
+    
+	<select id="get" resultType="ClasssInfo" >
+		SELECT 
+			<include refid="classsColumns"/>
+		FROM classs a
+		<include refid="classsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ClasssInfo" >
+		SELECT 
+			<include refid="classsColumns"/>
+		FROM classs a
+		<include refid="classsJoins"/>
+		
+		
+	</select>
+	
+	<insert id="insert" >
+		INSERT INTO classs(
+			c_name,
+			d_name
+		) VALUES (
+			#{c_name},
+			#{department.id}	
+		)
+		
+	</insert>
+	
+	<update id="update">
+		UPDATE classs SET 	
+			c_name = #{c_name},
+			d_name = #{department.id}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete" parameterType="ClasssInfo" >
+		DELETE FROM classs
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据名称获取班级信息 -->
+	<select id="findClasssByName" resultType="ClasssInfo">
+		SELECT 
+			<include refid="classsColumns"/>
+		FROM classs a
+		<include refid="classsJoins"/>
+		WHERE a.c_name = #{param1}
+	</select>
+</mapper>

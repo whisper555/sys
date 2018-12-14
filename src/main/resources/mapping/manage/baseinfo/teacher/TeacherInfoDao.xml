@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.manage.baseinfo.teacher.dao.TeacherInfoDao">
+
+	<sql id="teacherColumns">
+		a.id AS "id",
+		a.t_pw AS "t_pw",
+		a.t_id AS "t_id",
+		a.t_name AS
+		"t_name",
+		a.d_name AS "department.id",
+		a.t_phone AS "t_phone",
+		a.t_mail
+		AS "t_mail",
+		a.t_manager AS "t_manager",
+		a.t_max AS "t_max",
+		a.t_pro AS
+		"t_pro",
+		d.d_name AS "department.d_name"
+	</sql>
+
+	<sql id="teacherJoins">
+		LEFT JOIN department d on d.id = a.d_name
+	</sql>
+
+
+	<select id="get" resultType="TeacherInfo">
+		SELECT
+		<include refid="teacherColumns" />
+		FROM teacher a
+		<include refid="teacherJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="TeacherInfo">
+		SELECT
+		<include refid="teacherColumns" />
+		FROM teacher a
+		<include refid="teacherJoins" />
+	</select>
+	<!-- 学生端选择志愿教师列表 -->
+	<select id="findListForWish" resultType="TeacherInfo">
+		SELECT
+		<include refid="teacherColumns" />
+		FROM teacher a
+		<include refid="teacherJoins" />
+		<where>
+
+			<if test="s_wish1 != null and s_wish1 != ''">
+				AND a.id !=#{s_wish1}
+			</if>
+			<if test="s_wish2 != null and s_wish2 != ''">
+				AND a.id !=#{s_wish2}
+			</if>
+			<if test="s_wish3 != null and s_wish3 != ''">
+				AND a.id !=#{s_wish3}
+			</if>
+		</where>
+
+	</select>
+
+	<insert id="insert">
+		INSERT INTO teacher (
+		t_id,
+		t_pw,
+		t_name,
+		d_name,
+		t_phone,
+		t_mail,
+		t_manager,
+		t_max,
+		t_pro
+		) VALUES (
+		#{t_id},
+		#{t_pw},
+		#{t_name},
+		#{department.id},
+		#{t_phone},
+		#{t_mail},
+		#{t_manager},
+		#{t_max},
+		#{t_pro}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE teacher SET
+		t_id= #{t_id},
+		t_pw= #{t_pw},
+		t_name = #{t_name},
+		t_phone = #{t_phone},
+		t_mail = #{t_mail},
+		d_name = #{department.id},
+		t_manager= #{t_manager},
+		t_max= #{t_max},
+		t_pro = #{t_pro}
+		WHERE id = #{id}
+	</update>
+
+
+	<!--物理删除 -->
+	<update id="delete" parameterType="TeacherInfo">
+		DELETE FROM
+		teacher
+		WHERE id = #{id}
+	</update>
+
+	<!-- 根据id和pw获取对象 -->
+	<select id="teacherLogin" resultType="TeacherInfo">
+		select
+		*
+		FROM teacher
+		where t_id = #{param1}
+		AND t_pw =#{param2}
+	</select>
+	<!-- 根据id和pw获取管理员对象 -->
+	<select id="manageLogin" resultType="TeacherInfo">
+		select
+		*
+		FROM teacher
+		where t_id = #{param1}
+		AND t_pw =#{param2}
+		AND t_manager ='1'
+	</select>
+	
+	<!-- 导入时判断工号是否已经存在 -->
+	<select id="exists" resultType="TeacherInfo">
+		SELECT
+		<include refid="teacherColumns" />
+		FROM teacher a
+		<include refid="teacherJoins" />
+		WHERE a.t_id = #{param1}
+	</select>
+	
+	<!-- 管理员端获取当前可以使用的教师 -->
+	<select id="findAllocationTeacherList" resultType="java.util.HashMap">
+	<![CDATA[
+	SELECT
+		id as value,
+		t_name AS label,
+		t_max as max,
+		 (select count(*) from student where t_name = VALUE) as count
+	FROM
+		teacher 
+	
+	HAVING
+		max > count
+		]]>     
+	</select>
+	<!--管理员获取当前还没有填写论文的教师列表-->
+	<select id="findNoPagerList" resultType="TeacherInfo">
+		select
+			*
+		from teacher t
+		where
+			t.id not in (
+							select distinct t_name id
+								from
+							pager)
+	</select>
+	<!--管理员获取没有学生的教师列表-->
+	<select id="findNoStudentList" resultType="TeacherInfo">
+		select
+			*
+			from teacher t
+			where t.id not in (select
+								 ifnull(t_name,'0')
+								from student s where t_name is null or t_name = '')
+	</select>
+
+</mapper>

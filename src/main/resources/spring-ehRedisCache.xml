@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+   	http://www.springframework.org/schema/cache  http://www.springframework.org/schema/cache/spring-cache.xsd">
+    <!--1 引入属性文件，在配置中占位使用 -->
+    <context:property-placeholder location="classpath*:jdbc.properties" />
+
+    <!--ehCache begin-->
+    <!-- Ehcache配置管理器 -->
+    <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:cache/ehcache.xml" />
+        <!--true:单例，一个cacheManager对象共享；false：多个对象独立 -->
+        <property name="shared" value="true" />
+        <property name="cacheManagerName" value="cacheManagerFactory" />
+    </bean>
+
+    <!-- ehCache 操作对象 -->
+    <bean id="sysEhCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <!-- cacheName对应ehcache.xml中的cache name="sysCache" -->
+        <property name="cacheName" value="sysCache" />
+        <property name="cacheManager" ref="cacheManagerFactory" />
+    </bean>
+    <bean id="defaultEhCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <!-- cacheName对应ehcache.xml中的cache name="defaultCache" -->
+        <property name="cacheName" value="defaultCache" />
+        <property name="cacheManager" ref="cacheManagerFactory" />
+    </bean>
+    <!--ehcache end-->
+
+    <!--redis begin-->
+    <!--1 Redis 连接池 -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxActive}" />
+        <property name="maxWaitMillis" value="${redis.maxWait}" />
+
+    </bean>
+    <!--2 Spring-redis连接池管理工厂 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.host}" />
+        <property name="port" value="${redis.port}" />
+        <property name="password" value="${redis.pass}" />
+        <property name="poolConfig" ref="poolConfig" />
+    </bean>
+    <!--3 redis 操作对象 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory" />
+    </bean>
+    <!--redis end-->
+
+
+    <!--ehRedisCache begin-->
+    <bean  id="sysEhRedisCache" class="com.hb.sys.tools.cache.EhRedisCache">
+        <property name="redisTemplate" ref="redisTemplate" />
+        <property name="ehCache" ref="sysEhCache"/>
+        <property name="name" value="sysCache"/>
+    </bean>
+    <bean id="defaultEhRedisCache" class="com.hb.sys.tools.cache.EhRedisCache">
+        <property name="redisTemplate" ref="redisTemplate" />
+        <property name="ehCache" ref="defaultEhCache"/>
+        <property name="name" value="defaultCache"/>
+    </bean>
+    <bean id="ehRedisCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+        <set>
+            <ref bean="defaultEhRedisCache"/>
+            <ref bean="sysEhRedisCache"/>
+        </set>
+        </property>
+
+    </bean>
+    <!--ehRedisCache end-->
+
+    <!--启用缓存注解功能 key-generator="cacheKeyGenerator" -->
+    <cache:annotation-driven cache-manager="ehRedisCacheManager" proxy-target-class="false" />
+
+
+    <!--调试ehRedisCache所用-->
+    <!--<bean id="userService" class="com.seed.modules.test.user.service.UserService"/>-->
+
+    <!--<bean id="userController" class="com.seed.modules.test.user.web.UserController"/>-->
+</beans>

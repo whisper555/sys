@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.manage.baseinfo.pager.dao.PagerInfoDao">
+
+	<sql id="pagerColumns">
+		a.id  AS "id",
+		a.p_name AS "p_name",
+		a.t_name AS "teacher.id",
+		a.s_name AS "student.id",
+		a.d_name AS "department.id",
+		a.p_descripe AS "p_descripe",
+		a.p_type AS "p_type",
+		a.p_max AS "p_max",
+		t.t_name AS "teacher.t_name",
+		d.d_name AS "department.d_name",
+		s.s_name AS "student.s_name"
+
+	</sql>
+
+	<sql id="pagerJoins">
+		LEFT JOIN teacher t ON t.id = a.t_name
+		LEFT JOIN student s ON s.id = a.s_name
+		LEFT JOIN department d ON d.id = a.d_name
+	</sql>
+
+
+	<select id="get" resultType="PagerInfo">
+		SELECT
+		<include refid="pagerColumns"/>
+		FROM pager a
+		<include refid="pagerJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="PagerInfo">
+		SELECT
+		<include refid="pagerColumns"/>
+		FROM pager a
+		<include refid="pagerJoins"/>
+
+	</select>
+	<!-- 学生端选择志愿论文列表 -->
+	<select id="findPagerForWish" resultType="PagerInfo">
+		SELECT
+		<include refid="pagerColumns"/>
+		FROM pager a
+		<include refid="pagerJoins"/>
+	</select>
+	<!-- 学生端选择志愿论文列表带参数 -->
+	<select id="findPagerForWishParam" resultType="PagerInfo">
+		SELECT
+		<include refid="pagerColumns"/>
+		FROM pager a
+		<include refid="pagerJoins"/>
+		<where>
+
+			<if test="p_type != null and p_type != ''">
+				AND a.p_type = #{p_type}
+			</if>
+			<if test="teacher != null and teacher.id !=null and teacher.id!= ''">
+				AND a.t_name = #{teacher.id}
+			</if>
+		</where>
+	</select>
+	<!-- 查看论文当前选择人数 -->
+	<select id="countStudent" resultType="java.lang.String">
+		SELECT
+			count(*) count
+		FROM
+			student
+		WHERE
+			s_wish1 = #{id}
+		OR s_wish2 = #{id}
+		OR s_wish2 = #{id}
+	</select>
+	<!-- 查看论文当前已经选择的人数 -->
+	<select id="countPagerStudent" resultType="java.lang.String">
+		SELECT
+			count(*) count
+		FROM
+			student
+		WHERE
+			p_name = #{param1}
+	</select>
+	<!-- 学生端选择志愿查询教师名下论文列表 -->
+	<select id="findPagerListByTeacher" resultType="PagerInfo">
+		SELECT
+		<include refid="pagerColumns"/>
+		FROM pager a
+		<include refid="pagerJoins"/>
+		WHERE a.t_name = #{param1}
+	</select>
+
+
+	<insert id="insert" parameterType="PagerInfo">
+		INSERT INTO pager  (
+			p_name,
+			t_name,
+			s_name,
+			d_name,		
+			p_descripe,
+			p_type,
+			p_max
+		) VALUES (
+			#{p_name},
+			#{teacher.id},
+			#{student.id},
+			#{department.id},
+			#{p_descripe},
+			#{p_type},
+			#{p_max}
+		)
+		
+	</insert>
+
+	<update id="update" parameterType="PagerInfo">
+		UPDATE pager a SET 	
+			p_name = #{p_name},
+			t_name = #{teacher.id},
+			s_name = #{student.id},
+			d_name = #{department.id},	
+			p_descripe = #{p_descripe},
+			p_type = #{p_type},
+			p_max = #{p_max}
+			WHERE a.id = #{id}
+	</update>
+
+
+	<!--物理删除-->
+	<update id="delete" parameterType="PagerInfo">
+		DELETE FROM pager 
+		WHERE id = #{id}
+	</update>
+	<!-- ajax获取教师名下可用的论文 -->
+	<select id="getTeacherPagerList" resultType="java.util.HashMap">
+		<![CDATA[
+
+		SELECT
+			id AS value,
+			p_name AS label,
+			p_max AS max,
+			(
+				SELECT
+					COUNT(*) count
+				FROM
+					student s
+				WHERE
+					s.p_name = p.id
+			) count
+		FROM
+			pager p
+		WHERE
+			t_name = #{param1}
+		HAVING
+			max > count
+
+		]]>
+	</select>
+
+	<select id="checkPager" parameterType="String" resultType="int">
+		select
+			t.t_max-sum(p.p_max) count
+		from pager p,teacher t
+		where p.t_name = t.id
+		and t.id = #{param1}
+	</select>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.app.dao.SimpleListForAppDao">
+
+<select id="getDepartList" resultType="java.util.HashMap">
+	SELECT
+		id value,
+		d_name label
+	FROM
+		department
+	</select>
+   
+   <select id="getClasssList" resultType="java.util.HashMap">
+	SELECT
+		id value,
+		c_name label
+	FROM
+		classs
+	</select>
+   <select id="getTeacherList" resultType="java.util.HashMap">
+	SELECT
+		id value,
+		t_name label
+	FROM
+		teacher
+	</select>
+   
+    <select id="getDictList" resultType="java.util.HashMap">
+	SELECT
+		 value,
+		 label
+	FROM
+		sys_dict
+	WHERE type = #{param1}
+</select>
+
+	
+</mapper>

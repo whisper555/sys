@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.affiche.dao.AfficheDao">
+    
+	<sql id="afficheColumns">
+		a.id AS "id",
+		a.a_title AS "a_title",
+		a.a_text AS "a_text",
+		a.a_date AS "a_date"
+
+	</sql>
+	
+	<sql id="afficheJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="Affiche" >
+		SELECT 
+			<include refid="afficheColumns"/>
+		FROM affiche a
+		<include refid="afficheJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Affiche" >
+		SELECT 
+			<include refid="afficheColumns"/>
+		FROM affiche a
+		<include refid="afficheJoins"/>
+		<where>
+			
+			<if test="a_title != null and a_title != ''">
+				AND a.a_title LIKE 
+				concat('%',#{a_title},'%')
+			</if>
+		</where>
+		
+	</select>
+	
+	<select id="findAllList" resultType="Affiche" >
+		SELECT 
+			<include refid="afficheColumns"/>
+		FROM affiche a
+		<include refid="afficheJoins"/>
+
+	</select>
+	
+	<insert id="insert" >
+		INSERT INTO affiche(
+			a_title,
+			a_text,
+			a_date
+		) VALUES (
+			#{a_title},
+			#{a_text},
+			#{a_date}	
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE affiche SET 	
+			a_title = #{a_title},
+			a_text = #{a_text},
+			a_date = #{a_date}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete" parameterType="Affiche" >
+		DELETE FROM affiche
+		WHERE id = #{id}
+	</update>
+	
+
+	
+</mapper>

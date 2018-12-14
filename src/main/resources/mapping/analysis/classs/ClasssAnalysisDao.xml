@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.analysis.classs.dao.ClasssAnalysisDao">
+
+    <!--     获取各个院系下每个班级学生的平均分 -->
+    <select id="getClaScoreBarData" resultType="java.util.HashMap">
+	    SELECT c.c_name CLASSS,IFNULL(a.avg,0) AVERAGE from classs c
+		LEFT JOIN(
+		SELECT c_name,AVG(s_score)avg from student GROUP BY c_name) a 
+		ON a.c_name = c.id
+	
+    </select>
+     <!--     获取各个班级学生的毕设youxiu率 -->
+    <select id="getClaRateBarData" resultType="java.util.HashMap">
+	    SELECT c.c_name CLASSS,IFNULL(LEFT(p.num/a.num*100,5),0)RATE from classs c
+		LEFT JOIN
+		(SELECT  c_name,COUNT(id) num from student GROUP BY c_name)a 
+		ON a.c_name=c.id
+		LEFT JOIN
+		(SELECT c_name,COUNT(id) num from student  where s_score>='85' GROUP BY c_name)p
+		ON p.c_name= a.c_name
+    </select>
+    
+  
+	
+</mapper>

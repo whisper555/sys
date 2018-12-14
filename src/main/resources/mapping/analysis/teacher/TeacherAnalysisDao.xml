@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.analysis.teacher.dao.TeacherAnalysisDao">
+    <!--     获取各个导师所带学生的数量 -->
+    <select id="getStuNumBarData" resultType="java.util.HashMap">
+	    SELECT 
+	    t.t_name TEACHER, ifnull(count(s.id),0) NUM
+		FROM teacher t
+		LEFT JOIN student s ON t.id=s.t_name
+		GROUP BY t.id
+		
+    </select>
+    <!--     获取各个导师所带学生的毕设平均分 -->
+    <select id="getStuScoreBarData" resultType="java.util.HashMap">
+	    SELECT 
+	    t.t_name TEACHER, ifnull(AVG(s.s_score) ,0)SCORE
+		FROM teacher t 
+		LEFT JOIN student s ON t.id=s.t_name
+		GROUP BY t.id
+		
+    </select>
+     <!--     获取各个导师所带学生的毕设优秀率 -->
+    <select id="getStuRateBarData" resultType="java.util.HashMap">
+	   <!--  SELECT 
+		t.t_name TEACHER,
+		IFNULL((SELECT count(s_pass) from student where s_pass='通过' and t.id=t_name )/(SELECT count(s_pass) from student where  t.id=t_name )*100,0)RATE
+		FROM teacher t
+		LEFT JOIN student s ON t.id=s.t_name
+		GROUP BY t.id -->
+		
+		select 
+		t.t_name TEACHER,IFNULL(LEFT(IFNULL(y.num,0)/ IFNULL(a.num,0)*100,5),0.000) RATE from teacher t
+		left join (
+		select t_name,count(id) num from student where  s_score>=90 group by t_name) y
+		on t.id=y.t_name
+		left join (
+		select t_name,count(id) num from student  group by t_name) a
+		on t.id=a.t_name 
+    </select>
+    
+  
+	
+</mapper>

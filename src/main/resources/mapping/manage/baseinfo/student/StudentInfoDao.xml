@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.manage.baseinfo.student.dao.StudentInfoDao">
+
+	<sql id="studentColumns">
+		a.id AS "id",
+		a.s_pw AS "s_pw",
+		a.s_id AS "s_id",
+		a.s_name AS
+		"s_name",
+		a.s_sex AS "s_sex",
+		a.p_name AS "pager.id",
+		a.c_name AS "classs.id",
+		a.t_name AS "teacher.id",
+		a.s_phone AS "s_phone",
+		a.s_wish1 AS "s_wish1.id",
+		a.s_wish2 AS "s_wish2.id",
+		a.s_wish3 AS "s_wish3.id",
+		a.s_score AS "s_score",
+		a.s_flag AS "s_flag",
+		a.s_file AS "s_file",
+		
+		a.s_score_t AS "s_score_t",
+		p.p_name AS "pager.p_name",
+		c.c_name AS "classs.c_name",
+		t.t_name AS "teacher.t_name"
+
+	</sql>
+	<sql id="studentJoins">
+		LEFT JOIN pager p on p.id = a.p_name
+		LEFT JOIN classs c on
+		c.id = a.c_name
+		LEFT JOIN teacher t on t.id = a.t_name
+	</sql>
+	<select id="get" resultType="StudentInfo">
+		SELECT
+		<include refid="studentColumns" />
+		FROM student a
+		<include refid="studentJoins" />
+		WHERE a.id = #{id}
+	</select>
+	<select id="findList" resultType="StudentInfo">
+		SELECT
+		<include refid="studentColumns" />
+		FROM student a
+		<include refid="studentJoins" />
+	</select>
+	<insert id="insert">
+		INSERT INTO student (
+		s_id,
+		s_pw,
+		s_name,
+		s_sex,
+		c_name,
+		p_name,
+		t_name,
+		s_phone,
+		s_wish1,
+		s_wish2,
+		s_wish3,
+		s_score,
+		s_score_t,
+		s_flag,
+		s_file
+		) VALUES (
+		#{s_id},
+		#{s_pw},
+		#{s_name},
+		#{s_sex},
+		#{classs.id},
+		#{pager.id},
+		#{teacher.id},
+		#{s_phone},
+		#{s_wish1.id},
+		#{s_wish2.id},
+		#{s_wish3.id},
+		#{s_score},
+		#{s_score_t},
+		#{s_flag},
+		#{s_file}
+		)
+	</insert>
+	<update id="update">
+		UPDATE student a SET
+		s_id= #{s_id},
+		s_pw= #{s_pw},
+		s_name = #{s_name},
+		s_sex = #{s_sex},
+		c_name = #{classs.id},
+		p_name = #{pager.id},
+		t_name = #{teacher.id},
+		s_phone = #{s_phone},
+		s_wish1 = #{s_wish1.id},
+		s_wish2 = #{s_wish2.id},
+		s_wish3 = #{s_wish3.id},
+		s_score= #{s_score},
+		s_score_t= #{s_score_t},
+		s_flag = #{s_flag},
+		s_file = #{s_file}
+		WHERE a.id = #{id}
+	</update>
+
+	<!--物理删除 -->
+	<update id="delete" parameterType="StudentInfo">
+		DELETE FROM
+		student
+		WHERE id =	#{id}
+	</update>
+
+	<!-- 根据id和pw获取对象 -->
+	<select id="studentLogin" resultType="StudentInfo">
+		select
+		*
+		FROM student
+		where
+		s_id = #{param1}
+		AND s_pw = #{param2}
+	</select>
+
+	<!-- 学生端设置第一志愿 -->
+	<update id="setFirstOrder" >
+		update student a
+		set a.s_wish1 = #{param2}
+		where a.id = #{param1}
+	</update>
+	<!-- 学生端设置第二志愿 -->
+	<update id="setSecondOrder" >
+		update student a
+		set a.s_wish2 = #{param2}
+		where a.id = #{param1}
+	</update>
+	<!-- 学生端设置第三志愿 -->
+	<update id="setThirdOrder" >
+		update student a
+		set a.s_wish3 = #{param2}
+		where a.id = #{param1}
+	</update>
+	<!-- 更新学生的导师为教师id  论文为pid -->
+	<update id="updateTeacher">
+		UPDATE student a
+		SET a.t_name = #{param2},
+			a.p_name = #{param3},
+			a.s_flag = '1'
+		WHERE
+			a.id = #{param1}
+	</update>
+	<!-- 更新学生分数-->
+	<update id="updateScore">
+		UPDATE student a
+		SET 
+			a.s_score_t = #{param2}
+		WHERE
+			a.id = #{param1}
+	</update>
+	<!-- 更新学生的导师为Null（教师删除学生） -->
+	<update id="updateTeacherNull">
+		UPDATE student a
+		SET a.t_name = NULL,
+			a.p_name = NULL,
+			a.s_flag = '0'
+		WHERE
+			a.id = #{param1}
+	</update>
+	<!-- 教师端查询我的学生列表 -->
+	<select id="findMyStudentList" resultType="StudentInfo">
+		SELECT
+		<include refid="studentColumns" />
+		FROM student a
+		<include refid="studentJoins" />
+		WHERE a.t_name = #{param1}
+	</select>
+	<!-- 用于教师端老师查询第一志愿的列表 -->
+	<select id="findFirstList" resultType="StudentInfo">
+		SELECT
+			a.id AS 'id',
+			a.s_id AS "s_id",
+			a.s_sex AS "s_sex",
+			a.c_name AS "classs.id",
+			c.c_name AS "classs.c_name",
+			a.s_phone AS "s_phone",
+			a.s_name AS 's_name',
+			a.s_wish1 AS 's_wish1.id',
+			p.p_name AS 's_wish1.p_name',
+			p.t_name AS 'S_wish1.t_name'
+		FROM
+			student a
+		LEFT JOIN pager p ON a.s_wish1 = p.id
+		LEFT JOIN classs c ON a.c_name = c.id
+		WHERE
+			p.t_name = #{param1}
+			AND a.s_flag = '0'
+	</select>
+	<!-- 用于教师端老师查询第二志愿的列表 -->
+	<select id="findSecondList" resultType="StudentInfo">
+		SELECT
+			a.id AS 'id',
+			a.s_id AS "s_id",
+			a.s_sex AS "s_sex",
+			a.c_name AS "classs.id",
+			c.c_name AS "classs.c_name",
+			a.s_phone AS "s_phone",
+			a.s_name AS 's_name',
+			a.s_wish2 AS 's_wish2.id',
+			p.p_name AS 's_wish2.p_name',
+			p.t_name AS 'S_wish2.t_name'
+		FROM
+			student a
+		LEFT JOIN pager p ON a.s_wish2 = p.id
+		LEFT JOIN classs c ON a.c_name = c.id
+		WHERE
+			p.t_name = #{param1}
+			AND a.s_flag = '0'
+	</select>
+	<!-- 用于教师端老师查询第三志愿的列表 -->
+	<select id="findThirdList" resultType="StudentInfo">
+		SELECT
+			a.id AS 'id',
+			a.s_id AS "s_id",
+			a.s_sex AS "s_sex",
+			a.c_name AS "classs.id",
+			c.c_name AS "classs.c_name",
+			a.s_phone AS "s_phone",
+			a.s_name AS 's_name',
+			a.s_wish3 AS 's_wish3.id',
+			p.p_name AS 's_wish3.p_name',
+			p.t_name AS 'S_wish3.t_name'
+		FROM
+			student a
+		LEFT JOIN pager p ON a.s_wish3 = p.id
+		LEFT JOIN classs c ON a.c_name = c.id
+		WHERE
+			p.t_name = #{param1}
+			AND a.s_flag = '0'
+	</select>
+	<!-- 教师端查询没有教师的学生列表 -->
+	<select id="findLackStuList" resultType="StudentInfo">
+		SELECT
+		<include refid="studentColumns" />
+		FROM student a
+		<include refid="studentJoins" />
+		WHERE
+			(a.t_name IS NULL or a.t_name ='')
+		AND s_flag = '0'
+	</select>
+	
+	<!-- 教师端查询没有教师的学生列表   待参数（班级id） -->
+	<select id="findLackStuListParam" resultType="StudentInfo"  parameterType="java.lang.String">
+		SELECT
+		<include refid="studentColumns" />
+		FROM student a
+		<include refid="studentJoins" />
+		WHERE
+			(a.t_name IS NULL or a.t_name ='')		 
+		AND a.s_flag = '0'
+		AND a.c_name = #{param1}
+	</select>
+	<!-- 教师端选择学生 -->
+	<update id="selectstu">
+		UPDATE student
+		SET t_name = #{param2},
+		 s_flag = "1"
+		WHERE
+			id = #{param1}
+	</update>
+	<!-- 教师端判断教师当前名下的学生人数 -->
+	<select id="countlimit" resultType="java.lang.Integer" >
+		SELECT
+			count(*) count
+		FROM
+			student
+		WHERE
+			t_name = #{param1}
+	</select>
+	
+	<!-- 导入时判断学号是否已经存在 -->
+	<select id="exists" resultType="StudentInfo">
+		SELECT
+		<include refid="studentColumns" />
+		FROM student a
+		<include refid="studentJoins" />
+		WHERE a.s_id = #{param1}
+	</select>
+	
+	<!-- 管理员:分配教师时学生列表 -->
+	<select id="findAllocationList" resultType="StudentInfo">
+		SELECT
+		<include refid="studentColumns" />
+		FROM
+			student a
+		<include refid="studentJoins" />
+
+	</select>
+	
+	<!-- 管理员:未有教师的学生列表 -->
+	<select id="findNoAllocationList" resultType="StudentInfo">
+		SELECT
+		<include refid="studentColumns" />
+		FROM
+			student a
+		<include refid="studentJoins" />
+		WHERE
+			(a.t_name IS NULL OR a.t_name ='')
+		AND a.s_flag = '0'
+
+	</select>
+</mapper>

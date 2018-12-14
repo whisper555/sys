@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.manage.allocation.random.dao.RandomAllocationDao">
+<update id="randomAllocationTeacher" >
+	<![CDATA[
+	UPDATE student a
+	INNER JOIN (
+		SELECT
+			id
+		FROM
+			student
+		WHERE
+			t_name IS NULL or t_name =''
+			AND s_flag = '0'
+		ORDER BY
+			RAND()
+		LIMIT 1
+	) s
+	INNER JOIN (
+		SELECT
+			id,
+			t_max AS max,
+			(
+				SELECT
+					count(id)
+				FROM
+					student
+				WHERE
+					t_name = id
+			) AS count
+		FROM
+			teacher
+		HAVING
+			max > count
+		ORDER BY
+			RAND()
+		LIMIT 1
+	) t
+	SET a.t_name = t.id,
+	    a.s_flag = '1'
+	WHERE
+		a.id = s.id
+	]]>    
+</update>
+<update id="randomAllocationPager">
+<![CDATA[
+	UPDATE student a
+		INNER JOIN (
+			SELECT
+				id
+			FROM
+				student
+			WHERE
+				t_name IS NULL or t_name =''
+			AND p_name IS NULL or p_name =''
+			AND s_flag='0'
+			ORDER BY
+				RAND()
+			LIMIT 1
+		) stu
+		INNER JOIN (
+			SELECT
+				p.id AS id,
+				p.p_max AS pmax,
+				p.t_name AS teacher,
+				t.t_max AS tmax,
+				
+				(
+					SELECT
+						count(id)
+					FROM
+						student s
+					WHERE
+						s.p_name = p.id
+				) AS pcount,
+				(
+					SELECT
+						count(id)
+					FROM
+						student s
+					WHERE
+						s.t_name = teacher
+				) AS tcount
+			FROM
+				pager p
+			LEFT JOIN teacher t on t.id = p.t_name
+
+			HAVING
+				pmax > pcount
+			AND tmax > tcount
+			ORDER BY
+				RAND()
+			LIMIT 1
+		) pager
+		SET a.p_name = pager.id,
+		 a.t_name = pager.teacher,
+		 a.s_flag = '1'
+		WHERE
+			a.id = stu.id
+ 
+ 
+	]]>    
+</update>
+<select id="findAllocationStudent" resultType="java.lang.Integer">
+			SELECT
+				count(id) count
+			FROM
+				student
+			WHERE
+				t_name IS NULL
+			OR t_name = ''
+			AND p_name IS NULL
+			OR p_name = ''
+			AND s_flag = '0'
+</select>
+</mapper>

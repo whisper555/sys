@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.sys.global.dao.GlobalDao">
+
+	<!-- 全局时间判断 -->
+	<select id="judgetime" resultType="java.util.HashMap" >
+		SELECT
+			starttime,
+			endtime
+		FROM
+			schedule
+		WHERE
+		period = #{period}
+	</select>
+	
+	<!-- 教师tid转换成id(工号转成id) -->
+	<select id="tid2id" resultType="java.lang.String">
+		select
+		id
+		from teacher
+		where t_id =
+		#{param}
+	</select>
+	<!-- 学生sid转换成id(学号转成id) -->
+	<select id="sid2id" resultType="java.lang.String">
+		select
+		id
+		from student
+		where s_id =
+		#{param}
+	</select>
+	
+</mapper>
