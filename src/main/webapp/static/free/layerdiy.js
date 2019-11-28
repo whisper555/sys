@@ -10,6 +10,17 @@ function confirmx(href){
 		
 	
 	}
+function confirmxPw(href){
+	top.layer.confirm('确定要重置密码吗?', { title:'提示',skin: 'layui-layer-lan',anim: 4 },
+		function(index){
+			location = href;
+			top.layer.close(index);
+			return true;
+		});
+	return false;
+
+
+}
 function confirmchoose(href){
 	top.layer.confirm('确定要选择吗?', { title:'提示',skin: 'layui-layer-lan',anim: 4 },
 		function(index){

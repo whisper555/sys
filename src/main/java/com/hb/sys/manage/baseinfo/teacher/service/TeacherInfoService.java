@@ -141,4 +141,8 @@ public class TeacherInfoService extends CrudService<TeacherInfoDao,TeacherInfo>{
     public List<TeacherInfo> findNoStudentList(){
         return dao.findNoStudentList();
     }
+
+    public void resetTmax(){
+        dao.resetTmax();
+    }
 }

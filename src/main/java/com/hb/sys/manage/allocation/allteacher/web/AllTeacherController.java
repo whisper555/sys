@@ -75,6 +75,7 @@ public class AllTeacherController {
 
 	@RequestMapping(value = "save")
 	public String save(StudentInfo studentInfo, Model model, RedirectAttributes redirectAttributes) throws Exception {
+		studentInfo.setS_flag("1");//分配标志变成1
 		System.out.println("学生基本信息保存--");
 		if (studentInfoService.get(studentInfo) == null) {
 			studentInfoService.insert(studentInfo);

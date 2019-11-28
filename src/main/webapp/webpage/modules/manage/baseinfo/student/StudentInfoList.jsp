@@ -6,7 +6,6 @@
 	<title>学生信息管理</title>
 </head>
 <body class="childrenBody">
-			  
 		    <div class="ibox-title">
 			<message:message content="${message}"></message:message>  
 			</div>

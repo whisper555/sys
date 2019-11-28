@@ -12,8 +12,9 @@
 			 <div class="ibox-title">
                   <a class="btn btn-outline btn-default" onclick="openDialog('插入教师信息','${ctx }/manage/baseinfo/teacher/insert','800px','500px')">添加</a>  
                   <excel:importExcel url="${ctx}/manage/baseinfo/teacher/import"></excel:importExcel><!-- 导入按钮 -->
-                  <a class="btn btn-outline btn-default" href="${ctx }/manage/baseinfo/teacher/export" ><i class="fa fa-folder-open-o"></i> 导出</a> 
-                  <a class="btn btn-outline btn-default" href="${ctx }/manage/baseinfo/teacher/list" >刷新</a> 
+                  <a class="btn btn-outline btn-default" href="${ctx }/manage/baseinfo/teacher/export" ><i class="fa fa-folder-open-o"></i> 导出</a>
+				 <a class="btn btn-outline btn-default" href="${ctx }/manage/baseinfo/teacher/list" >刷新</a>
+				 <a class="btn btn-outline btn-default" href="${ctx }/manage/baseinfo/teacher/resetTmax" >根据字典更新教师带人数量</a>
                  
                                  
              </div>

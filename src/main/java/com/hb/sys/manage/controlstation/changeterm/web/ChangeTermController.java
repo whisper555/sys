@@ -38,5 +38,17 @@ public class ChangeTermController {
 		changeTermService.delteacher();
 		return "redirect:list";
 	}
+
+	@RequestMapping(value = "resetTeacherPw")
+	public String resetTeacherPw(){
+		changeTermService.resetTeacherPw();
+		return "redirect:list";
+	}
+
+	@RequestMapping(value = "resetStudentPw")
+	public String resetStudentPw(){
+		changeTermService.resetStudentPw();
+		return "redirect:list";
+	}
 	
 }

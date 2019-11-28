@@ -92,6 +92,31 @@
 	
 	
 }
+
+    function save(id) {
+
+        var s_id = id;
+        var score =  $("#"+id+"_s_score_t").val();
+        console.log(score);
+        $.ajax({
+            type : "get",
+            contentType : "application/json;charset=utf-8",
+            url : "${ctx }/teacher/mystudent/setScore",
+            data :
+
+                {
+                    "id" : id,
+                    "s_score_t" : score
+                },
+            dataType : "json",
+            success : function(result) {
+
+            },
+            error : function(result) {
+
+            }
+        });
+    }
 	</script>
 
 </head>
@@ -109,7 +134,8 @@
 									<th>所在班级</th>
 									<th>联系方式</th>
 									<th>导师</th>
-									<th>论文题目</th>
+									<th>论文题目(模糊查询【与分配论文按钮功能相同】)</th>
+									<th>教师评分</th>
 									<th>操作</th>
 								</tr> 
 						    </thead>
@@ -139,8 +165,13 @@
 									<input  id="${stu.id}pagerval" value="${stu.pager.id}" type="hidden">
 									<input type="text" id="${stu.id}pagerlab"  value="${stu.pager.p_name}" onblur="setPager('${stu.id}','${sessionScope.Tea_user.id }')" onkeydown="getPagerList('${stu.id}','${sessionScope.Tea_user.id }')" class="form-control" />
 								</td>
-								<td class="center">			
-										<a class="btn btn-outline btn-default" href="${ctx }/teacher/mystudent/delete?id=${stu.id}&tid=${sessionScope.Tea_user.id }" onclick="return confirmx(this.href);" >拒绝</a>
+								<td class="center">
+									<input type="text" id="${stu.id}_s_score_t"  value="${stu.s_score_t}" onblur="save(${stu.id})"  class="form-control" />
+								</td>
+								<td class="center">
+									    <a class="btn btn-outline btn-default" onclick="openDialog('分配论文','${ctx }/teacher/mystudent/getStuForSavePagerButton?id=${stu.id }&tid=${sessionScope.Tea_user.id }','400px','200px','')"><i class="fa fa-paste"></i>分配论文</a>
+									    <a class="btn btn-outline btn-default" href="${ctx }/teacher/mystudent/delete?id=${stu.id}&tid=${sessionScope.Tea_user.id }&period=7" onclick="return confirmx(this.href);" >拒绝</a>
+
 								</td>
 							</tr>
 						</c:forEach>

@@ -26,7 +26,7 @@
     <description>获取字典label</description>
     <name>getDictLabel</name>
     <function-class>com.hb.sys.tools.tlds.dict.DictUtils</function-class>
-    <function-signature>java.util.List getDictLabel(java.lang.String,java.lang.String,java.lang.String)</function-signature>
+    <function-signature>java.lang.String getDictLabel(java.lang.String,java.lang.String,java.lang.String)</function-signature>
     <example>${fns:getDictLabel(value,type,'')}</example>  
   </function>
   

@@ -26,7 +26,7 @@ public class PagerInfoService extends CrudService<PagerInfoDao, PagerInfo> {
 		return dao.findPagerListByTeacher(tid);
 	};
 	//学生端查询论文列表
-	@Cacheable(value="sysCache",key="#root.methodName")
+	//@Cacheable(value="sysCache",key="#root.methodName")
 	public List<PagerInfo> findPagerForWish(){
 		return dao.findPagerForWish();
 	}

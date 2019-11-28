@@ -62,12 +62,10 @@
         <property name="dataSource" ref="dataSource" />  
     </bean>
 
+
+    <!--aspectj支持自动代理实现AOP功能-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-    <!--aspectj支持自动代理实现AOP功能，解决@cacheable注解失效 -->
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
-
-    <import resource="classpath*:spring-mvc.xml"/>
 
     <import resource="classpath*:spring-ehRedisCache.xml"/>
 

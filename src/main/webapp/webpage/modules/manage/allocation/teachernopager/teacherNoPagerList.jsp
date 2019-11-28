@@ -7,7 +7,7 @@
 </head>
 <body class="childrenBody">
 <div class="ibox-title">
-    <a class="btn btn-outline btn-default" href="${ctx }/manage/baseinfo/teacher/nopager" >刷新</a>
+    <a class="btn btn-outline btn-default" href="${ctx }/manage/baseinfo/teacher/nopagerlist" >刷新</a>
 </div>
 <div class="ibox-content">
     <table class="table table-striped table-bordered table-hover dataTables-example" >

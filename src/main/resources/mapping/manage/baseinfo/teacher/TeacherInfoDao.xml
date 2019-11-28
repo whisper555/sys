@@ -164,8 +164,22 @@
 			*
 			from teacher t
 			where t.id not in (select
-								 ifnull(t_name,'0')
-								from student s where t_name is null or t_name = '')
+								 distinct t_name
+								from student s where t_name is not null or t_name != '')
 	</select>
+	<!--管理员教师列表 根据字典更新教师带人数量-->
+	<select id="resetTmax">
+		UPDATE teacher t
+		SET t.t_max = (
+			SELECT
+				dict.`value`
 
+			FROM
+				sys_dict dict
+			WHERE
+		dict.type = 't_pro_num'
+
+			AND dict.label = t.t_pro
+		)
+	</select>
 </mapper>

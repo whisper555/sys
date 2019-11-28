@@ -212,4 +212,18 @@ public class TeacherInfoController extends BaseController {
 		return "modules/manage/allocation/teachernostudent/teacherNoStudentList";
 
 	}
+
+	/**
+	 * 根据字典更新教师最大人数
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequestMapping("/resetTmax")
+	public String resetTmax(TeacherInfo teacherInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		teacherInfoService.resetTmax();
+		List<TeacherInfo> teacherlist = teacherInfoService.findList(teacherInfo);
+		// System.out.println(teacherInfoService.findList(teacherInfo).toString());
+		model.addAttribute("teacherlist", teacherlist);
+		return "modules/manage/baseinfo/teacher/TeacherInfoList";
+	}
 }

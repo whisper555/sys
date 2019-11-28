@@ -10,7 +10,7 @@
  			<div class="ibox-title">
  				 <a class="btn btn-outline btn-default" href="${ctx }/manage/allocation/random/randomAllocationTeacher" onclick="return confirmMessage(this.href,'确定要随机分配教师吗，不可逆');">分配教师</a>  
  			  	  <a class="btn btn-outline btn-default" href="${ctx }/manage/allocation/random/randomAllocationPager" onclick="return confirmMessage(this.href,'确定要随机分配论文吗，不可逆');" >分配论文</a>  
-                   <a class="btn btn-outline btn-default" href="${ctx }/manage/baseinfo/student/exportresult" ><i class="fa fa-folder-open-o"></i>导出结果</a>     
+                   <a class="btn btn-outline btn-default" href="${ctx }/manage/baseinfo/student/exportresult" ><i class="fa fa-folder-open-o"></i>导出毕业分配结果</a>
                   <a class="btn btn-outline btn-default" href="${ctx }/manage/allocation/random/list" >刷新</a>                
              </div>
 			 <div class="ibox-content">

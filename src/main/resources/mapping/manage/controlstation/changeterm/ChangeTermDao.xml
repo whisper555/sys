@@ -9,8 +9,15 @@
    		DELETE FROM pager
    </delete>
     <delete id="delteacher">
-        DELETE FROM teacher
+        DELETE FROM teacher  where t_manager != 1
     </delete>
+    <update id="resetStudentPw">
+        UPDATE student set s_pw = s_id
+    </update>
+
+    <update id="resetTeacherPw">
+        UPDATE teacher set t_pw = t_id where t_manager != 1
+    </update>
  
  
 </mapper>

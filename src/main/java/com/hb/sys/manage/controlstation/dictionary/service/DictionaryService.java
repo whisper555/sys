@@ -15,7 +15,7 @@ import com.hb.sys.tools.gen.CrudService;
 @Service
 public class DictionaryService extends CrudService<DictionaryDao,Dictionary>{
 
-    @CacheEvict(value="sysCache",key="#dictionary.type+'-'+#dictionary.value")
+    //@CacheEvict(value="sysCache",key="#dictionary.type+'-'+#dictionary.value")
     public void update(Dictionary dictionary) {
          dao.update(dictionary);
     }

@@ -16,4 +16,8 @@ public interface ChangeTermDao {
 	public void delpager();
 	//删除所有教师
 	public void delteacher();
+	//重置所有密码
+	public void resetTeacherPw();
+	//重置所有密码
+	public void resetStudentPw();
 }

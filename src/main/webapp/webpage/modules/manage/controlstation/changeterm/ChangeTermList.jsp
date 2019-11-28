@@ -11,19 +11,27 @@
 			 
 	 <table class="table table-striped table-bordered table-hover dataTables-example">
 		<tr class="gradeX center">
-		<td >
-				<a class="btn btn-outline btn-default" href="${ctx }/manage/controlstation/changeterm/delstu" onclick="return confirmx(this.href);" ><i class="fa fa-warning"></i>删除学生</a>
-		</td>
-		<td>
-				<a class="btn btn-outline btn-default" href="${ctx }/manage/controlstation/changeterm/delpager" onclick="return confirmx(this.href);" ><i class="fa fa-warning"></i>删除论文</a>
+			<td >
+					<a class="btn btn-outline btn-default" href="${ctx }/manage/controlstation/changeterm/delstu" onclick="return confirmx(this.href);" ><i class="fa fa-warning"></i>删除学生</a>
+			</td>
+			<td>
+					<a class="btn btn-outline btn-default" href="${ctx }/manage/controlstation/changeterm/delpager" onclick="return confirmx(this.href);" ><i class="fa fa-warning"></i>删除论文</a>
 
-		</td>
-		<td>
-				<a class="btn btn-outline btn-default" href="${ctx }/manage/controlstation/changeterm/delteacher" onclick="return confirmx(this.href);" ><i class="fa fa-warning"></i>删除教师</a>
+			</td>
+			<td>
+					<a class="btn btn-outline btn-default" href="${ctx }/manage/controlstation/changeterm/delteacher" onclick="return confirmx(this.href);" ><i class="fa fa-warning"></i>删除教师</a>
 
-		</td>
-		
-	</tr>
+			</td>
+	    </tr>
+		 <tr class="gradeX center">
+			 <td >
+				 <a class="btn btn-outline btn-default" href="${ctx }/manage/controlstation/changeterm/resetStudentPw" onclick="return confirmxPw(this.href);" ><i class="fa fa-warning"></i>重置学生密码</a>
+			 </td>
+			 <td >
+				 <a class="btn btn-outline btn-default" href="${ctx }/manage/controlstation/changeterm/resetTeacherPw" onclick="return confirmxPw(this.href);" ><i class="fa fa-warning"></i>重置教师密码</a>
+			 </td>
+
+		 </tr>
 	</table>
     <script>
         $(document).ready(function(){$(".dataTables-example").dataTable();});

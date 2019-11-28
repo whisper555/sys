@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@CacheEvict(value="defaultCache")//与配置
+//@CacheEvict(value="defaultCache")//与配置
 public @interface BusinessCacheEvict {
 
 }

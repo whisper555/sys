@@ -170,8 +170,8 @@ public class StudentInfoService extends CrudService<StudentInfoDao, StudentInfo>
 	 * @return
 	 */
     public HSSFWorkbook exportResult(List<StudentInfo> list) {    
-    	String[] excelHeader = { "学号","姓名","论文题目","指导老师","指导教师分数","评阅教师分数","评阅小组分数","总分"};  
-    	int[] excelHeaderWidth = {150,100,300,150,100,100,100,100};  
+    	String[] excelHeader = { "学号","姓名","班级","论文题目","指导老师","指导教师分数","评阅教师分数","评阅小组分数","总分"};
+    	int[] excelHeaderWidth = {150,100,250,300,150,100,100,100,100};
         HSSFWorkbook wb = new HSSFWorkbook();    
         HSSFSheet sheet = wb.createSheet("基本信息");    
         HSSFRow row = sheet.createRow((int) 0);    
@@ -193,21 +193,22 @@ public class StudentInfoService extends CrudService<StudentInfoDao, StudentInfo>
             row = sheet.createRow(i + 1);    
             StudentInfo student = list.get(i);    
             row.createCell(0).setCellValue(student.getS_id());
-            row.createCell(1).setCellValue(student.getS_name()); 
-            if(student.getPager()!=null){
-            	row.createCell(2).setCellValue(student.getPager().getP_name());
-            }else{
-            	row.createCell(2).setCellValue("");
-            }
-            if(student.getTeacher()!=null){
-            	row.createCell(3).setCellValue(student.getTeacher().getT_name());
+            row.createCell(1).setCellValue(student.getS_name());
+			row.createCell(2).setCellValue(student.getClasss().getC_name());
+			if(student.getPager()!=null){
+            	row.createCell(3).setCellValue(student.getPager().getP_name());
             }else{
             	row.createCell(3).setCellValue("");
             }
-            row.createCell(4).setCellValue(student.getS_score_t()); 
-            row.createCell(5).setCellValue(""); 
-            row.createCell(6).setCellValue(""); 
-            row.createCell(7).setCellValue(""); 
+            if(student.getTeacher()!=null){
+            	row.createCell(4).setCellValue(student.getTeacher().getT_name());
+            }else{
+            	row.createCell(4).setCellValue("");
+            }
+            row.createCell(5).setCellValue(student.getS_score_t());
+            row.createCell(6).setCellValue("");
+            row.createCell(7).setCellValue("");
+            row.createCell(8).setCellValue("");
      
         }    
         return wb;    

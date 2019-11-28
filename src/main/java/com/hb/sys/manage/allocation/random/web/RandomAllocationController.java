@@ -55,6 +55,16 @@ public class RandomAllocationController {
 		return "modules/manage/allocation/random/RandomAllocationList";
 	}
 
+	/**
+	 * 导出论文分配结果
+	 */
+
+	@RequestMapping(value = { "exportResult", "" })
+	public String exportResult(StudentInfo studentInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		return "modules/manage/allocation/exportResult/exportResult";
+	}
+
 
 	
 	//随机分配教师

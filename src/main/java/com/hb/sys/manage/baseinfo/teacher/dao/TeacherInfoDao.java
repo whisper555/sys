@@ -31,4 +31,6 @@ public interface TeacherInfoDao extends CrudDao<TeacherInfo>{
 	public List<TeacherInfo> findNoPagerList();
 	//管理员获取当前没有学生的教师列表
 	public List<TeacherInfo> findNoStudentList();
+	//管理员教师列表根据字典更新带人数量
+	public void resetTmax();
 }

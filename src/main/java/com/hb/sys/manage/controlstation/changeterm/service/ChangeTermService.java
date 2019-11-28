@@ -26,4 +26,12 @@ public class ChangeTermService {
 		changeTermDao.delteacher();
 	}
 
+	public void resetTeacherPw() {
+		changeTermDao.resetTeacherPw();
+	}
+
+	public void resetStudentPw() {
+		changeTermDao.resetStudentPw();
+	}
+
 }

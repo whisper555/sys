@@ -9,8 +9,10 @@
                         http://www.springframework.org/schema/context/spring-context-3.1.xsd    
                         http://www.springframework.org/schema/mvc       
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-	<context:component-scan base-package="com.hb.sys" />
+	<!-- 自动扫描该包，只扫描@Controller-->
+	<context:component-scan base-package="com.hb.sys" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	<!--默认的mvc注解映射的支持 -->
 	<mvc:annotation-driven />
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
@@ -60,6 +62,6 @@
 			<bean class="com.hb.sys.filter.LoginHandlerIntercepter"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
-	<!--aspectj支持自动代理实现AOP功能，解决@cacheable注解失效 -->
+	<!--aspectj支持自动代理实现AOP功能-->
 	<aop:aspectj-autoproxy proxy-target-class="false"/>
 </beans>  

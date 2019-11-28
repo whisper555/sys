@@ -21,7 +21,7 @@ public class DictService {
         return dictDao.getDictList(type);
     }
 
-    @Cacheable(value="sysCache",key="#type+'-'+#value")
+    //@Cacheable(value="sysCache",key="#type+'-'+#value")
     public String getDictLabel(String value,String type){
         return dictDao.getDictLabel(value,type);
     }

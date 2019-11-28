@@ -109,6 +109,9 @@
                             <li>
                                 <a class="J_menuItem" href="${ctx }/manage/allocation/allteacher/list" data-index="0">分配教师</a>
                             </li>
+                            <li>
+                                <a class="J_menuItem" href="${ctx }/manage/allocation/random/exportResult" data-index="0">导出毕业分配结果</a>
+                            </li>
                         </ul>
 
                     </li>
