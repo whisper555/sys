@@ -21,7 +21,7 @@
                             <thead>
 								<tr>
 									<th>毕设标题</th>
-									<th width="30%">题目描述</th>
+									<th width="40%">题目描述</th>
 									<th>毕设类型</th>
 									<th>毕设导师</th>		
 									<th>所属院系</th>
@@ -37,8 +37,8 @@
 									${pager.p_name}
 								</td>
 								<td width="30%">
-									<file:showfile value="${pager.p_descripe}" url="${ctx }/manage/subject" id="${pager.id}" hidden="true"></file:showfile>
-									<%-- ${pager.p_descripe} --%>
+									<%--<file:showfile value="${pager.p_descripe}" url="${ctx }/manage/subject" id="${pager.id}" hidden="true"></file:showfile>--%>
+									 ${pager.p_descripe}
 								</td>
 								<td class="center">
 									${fns:getDictLabel(pager.p_type,'p_type','')}

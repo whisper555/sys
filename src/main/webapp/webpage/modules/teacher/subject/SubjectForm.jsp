@@ -70,7 +70,13 @@
 					<td class="width-35">
 						<form:input path="p_max" htmlEscape="人数" class="form-control number required" />
 					</td>
+					<td class="width-15 active"><label class="pull-right">论文描述：</label></td>
+					<td class="width-35">
+						<form:textarea path="p_descripe" htmlEscape="论文描述" class="form-control" />
+					</td>
 				</tr>
+
+
 		 	</tbody>
 		</table>
 	</form:form>

@@ -50,14 +50,14 @@
 					</td>
 					
 				</tr>
-				<tr>
+				<%--<tr>
 					
 					<td class="width-15 active"><label class="pull-right">上传论文：<font color="red">*</font></label></td>
 					<td class="center" colspan="3">	
 						<file:fileupload id="${student.id}" url="${ctx }/student/mysubject" user="${sessionScope.Stu_user.id }"  ></file:fileupload> 
 						<file:showfile value="${student.s_file}" url="${ctx }/student/mysubject" id="${student.id}"></file:showfile>
 					</td>
-				</tr>
+				</tr>--%>
 		 	</tbody>
 		</table>
 	</form:form>

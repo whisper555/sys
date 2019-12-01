@@ -50,9 +50,9 @@
 									${pager.p_name}
 								</td>
 								<td class="center">
-<%-- 									<file:fileupload id="${pager.id}" url="${ctx }/teacher/subject" user="${sessionScope.Tea_user.id }" ></file:fileupload> 
- --%>									<file:showfile value="${pager.p_descripe}" url="${ctx }/teacher/subject" id="${pager.id}" hidden="true"></file:showfile>
-									<%-- ${pager.p_descripe} --%>
+<%-- 									<%--<file:fileupload id="${pager.id}" url="${ctx }/teacher/subject" user="${sessionScope.Tea_user.id }" ></file:fileupload>
+ &ndash;%&gt;									<file:showfile value="${pager.p_descripe}" url="${ctx }/teacher/subject" id="${pager.id}" hidden="true"></file:showfile>--%>
+									 ${pager.p_descripe}
 								</td>
 								<td class="center">
 									${fns:getDictLabel(pager.p_type,'p_type','')}

@@ -69,9 +69,9 @@
                              <li>
                               <a class="J_menuItem" href="${ctx }/teacher/mystudent/list?tid=${sessionScope.Tea_user.id }"   data-index="0">我的学生</a>
                              </li>
-                              <li>
+                             <%-- <li>
                               <a class="J_menuItem" href="${ctx }/teacher/downloadstufile/list?tid=${sessionScope.Tea_user.id }"   data-index="0">学生论文下载</a>
-                             </li>
+                             </li>--%>
                              
                         </ul>
 

@@ -75,8 +75,10 @@
 									${pager.p_name}
 								</td>
 								<td class="center">
+<%--
 									<file:showfile value="${pager.p_descripe}" url="${ctx }/student/myteacher" id="${pager.id}" hidden="true"></file:showfile>
-								<%--${pager.p_descripe} --%>
+--%>
+								${pager.p_descripe}
 								</td>
 								<td class="center">
 									${fns:getDictLabel(pager.p_type,'p_type','')}

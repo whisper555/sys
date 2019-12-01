@@ -13,7 +13,7 @@
 			  $("#inputForm").submit();
 			  return true;
 		  }
-	
+
 		  return false;
 		}
 		$(document).ready(function() {
@@ -22,7 +22,7 @@
 					form.submit();
 				},
 			});
-			
+
 		});
 
 	</script>
@@ -38,12 +38,12 @@
 					<td class="width-15 active"><label class="pull-right">毕设标题：<font color="red">*</font></label></td>
 					<td class="width-85">
 						<form:input path="p_name"  class="form-control required"/>
-						
+
 					</td>
 					<%-- <td class="width-15 active"><label class="pull-right">毕设描述：<font color="red">*</font></label></td>
 					<td class="width-35">
 						<form:input path="p_descripe" htmlEscape="对于论文的详细描述" class="form-control"/>
-						
+
 					</td> --%>
 				</tr>
 				<tr>
@@ -63,7 +63,7 @@
 						<%-- <form:input path="teacher.t_name" htmlEscape="false" class="form-control required"/> --%>
 					</td>
 				</tr>
-				
+
 				<tr>
 					<td class="width-15 active"><label class="pull-right">所属院系：<font color="red">*</font></label></td>
 					<td class="width-35">
@@ -72,15 +72,20 @@
 							<form:option value="${department.id }">${department.d_name }</form:option>
 						</c:forEach>
 					</form:select>
-						
+
 					</td>
 					<td class="width-15 active"><label class="pull-right">允许最大人数：<font color="red">*</font></label></td>
 					<td class="width-35">
 						<form:input path="p_max" htmlEscape="人数" class="form-control required number"/>
 					</td>
 				</tr>
-				
-				
+				<tr>
+					<td class="width-15 active"><label class="pull-right">毕设描述：</label></td>
+					<td class="width-85">
+						<form:textarea path="p_descripe" htmlEscape="论文描述" class="form-control" />
+					</td>
+				</tr>
+
 		 	</tbody>
 		</table>
 	</form:form>
