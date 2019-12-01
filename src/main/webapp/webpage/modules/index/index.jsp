@@ -151,9 +151,9 @@
                             <li>
                                 <a class="J_menuItem" href="${ctx }/manage/controlstation/dictionary" data-index="0">字典管理</a>
                             </li>
-                             <li>
+                             <%--<li>
                                 <a class="J_menuItem" href="${ctx }/manage/controlstation/file/list" data-index="0">文件管理</a>
-                            </li>
+                            </li>--%>
                              <li>
                                 <a class="J_menuItem" href="${ctx }/manage/controlstation/changeterm/list" data-index="0">换届管理</a>
                             </li>

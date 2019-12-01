@@ -85,8 +85,8 @@
 						<td class="width-35">
 							<form:input path="t_max" htmlEscape="人数"	readonly="true"  class="form-control required" /></td>
 						<td class="width-15 active"><label class="pull-right">职称：</label></td>
-						<td class="width-35">
-							<form:select path="t_pro"	onblur="save()" class="form-control required">
+						<td class="width-35"><%--onblur="save()"--%>
+							<form:select path="t_pro" readOnly="true"	 class="form-control required">
 								<form:options items="${fns:getDictList('t_pro')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 							</form:select></td>
 					</tr>

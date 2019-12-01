@@ -36,15 +36,14 @@
 		   <tbody>
 				<tr>
 					<td class="width-15 active"><label class="pull-right">毕设标题：<font color="red">*</font></label></td>
-					<td class="width-85">
+					<td class="width-35">
 						<form:input path="p_name"  class="form-control required"/>
 
 					</td>
-					<%-- <td class="width-15 active"><label class="pull-right">毕设描述：<font color="red">*</font></label></td>
+					<td class="width-15 active"><label class="pull-right">毕设描述：</label></td>
 					<td class="width-35">
-						<form:input path="p_descripe" htmlEscape="对于论文的详细描述" class="form-control"/>
-
-					</td> --%>
+						<form:textarea path="p_descripe" htmlEscape="论文描述" class="form-control" />
+					</td>
 				</tr>
 				<tr>
 					<td class="width-15 active"><label class="pull-right">毕设类型：<font color="red">*</font></label></td>
@@ -79,12 +78,7 @@
 						<form:input path="p_max" htmlEscape="人数" class="form-control required number"/>
 					</td>
 				</tr>
-				<tr>
-					<td class="width-15 active"><label class="pull-right">毕设描述：</label></td>
-					<td class="width-85">
-						<form:textarea path="p_descripe" htmlEscape="论文描述" class="form-control" />
-					</td>
-				</tr>
+
 
 		 	</tbody>
 		</table>
